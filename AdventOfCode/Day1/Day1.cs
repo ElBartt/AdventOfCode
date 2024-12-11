@@ -2,6 +2,8 @@ namespace AdventOfCode
 {
     public class Day1 : IDay
     {
+        private const int ms_part = 2;
+
         private List<int> m_leftList = [];
         private List<int> m_rightList = [];
 
@@ -10,7 +12,19 @@ namespace AdventOfCode
         public void Run()
         {
             ReadLists();
-            ComputeTotalDistance();
+
+            switch (ms_part)
+            {
+                case 1:
+                    ComputeTotalDistance();
+                    break;
+                case 2:
+                    ComputeSimilarityScore();
+                    break;
+                default:
+                    Console.WriteLine("¯\\_(--')_/¯");
+                    break;
+            }
         }
 
         public void DisplayResult()
@@ -36,17 +50,17 @@ namespace AdventOfCode
                 m_leftList.Add(int.Parse(values[0]));
                 m_rightList.Add(int.Parse(values[1]));
             }
-        }
 
-        private void ComputeTotalDistance()
-        {
             if (m_leftList.Count != m_rightList.Count)
             {
                 // Should not happened
                 Console.WriteLine("List do not have the same length.");
                 return;
             }
+        }
 
+        private void ComputeTotalDistance()
+        {
             m_leftList.Sort();
             m_rightList.Sort();
             m_result = 0;
@@ -54,6 +68,32 @@ namespace AdventOfCode
             for (int i = 0; i < m_leftList.Count; i++)
             {
                 m_result += Math.Abs(m_leftList[i] - m_rightList[i]);
+            }
+        }
+
+        private void ComputeSimilarityScore()
+        {
+            m_leftList.Sort();
+            m_rightList.Sort();
+            m_result = 0;
+
+            int previousLocationId = -1;
+            int previousSimilarityScore = -1;
+            foreach (int leftLocationId in m_leftList)
+            {
+                if (leftLocationId == previousLocationId)
+                {
+                    m_result += previousSimilarityScore;
+                    continue;
+                }
+
+                int hit = m_rightList.Count(locationId => locationId == leftLocationId);
+                int similarityScore = leftLocationId * hit;
+
+                m_result += similarityScore;
+
+                previousSimilarityScore = similarityScore;
+                previousLocationId = leftLocationId;
             }
         }
     }
