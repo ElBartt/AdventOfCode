@@ -1,9 +1,8 @@
-﻿using System.Reflection.Metadata;
-using AdventOfCode;
+﻿using AdventOfCode;
 
 internal class Program
 {
-    private const int DAY = 1;
+    private const int DAY = 2;
 
     private static void Main(string[] args)
     {
@@ -24,7 +23,10 @@ public static class DayFactory
         {
             case 1:
                 return new Day1();
+            case 2:
+                return new Day2();
             default:
+                Console.WriteLine("Missing day code!");
                 return null;
         }
     }
