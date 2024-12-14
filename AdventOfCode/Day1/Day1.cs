@@ -1,38 +1,18 @@
 namespace AdventOfCode
 {
-    public class Day1 : IDay
+    public class Day1 : Day
     {
-        private const int ms_part = 2;
-
         private List<int> m_leftList = [];
         private List<int> m_rightList = [];
 
-        private int m_result = -1;
+        private int m_result = 0;
 
-        public void Run()
-        {
-            ReadLists();
-
-            switch (ms_part)
-            {
-                case 1:
-                    ComputeTotalDistance();
-                    break;
-                case 2:
-                    ComputeSimilarityScore();
-                    break;
-                default:
-                    Console.WriteLine("¯\\_(--')_/¯");
-                    break;
-            }
-        }
-
-        public void DisplayResult()
+        public override void DisplayResult()
         {
             Console.WriteLine(m_result);
         }
 
-        private void ReadLists()
+        protected override void ReadInput()
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string filePath = Path.Combine(basePath, "..", "..", "..", "Day1", "input.txt");
@@ -59,11 +39,10 @@ namespace AdventOfCode
             }
         }
 
-        private void ComputeTotalDistance()
+        protected override void SolvePart1()
         {
             m_leftList.Sort();
             m_rightList.Sort();
-            m_result = 0;
 
             for (int i = 0; i < m_leftList.Count; i++)
             {
@@ -71,11 +50,10 @@ namespace AdventOfCode
             }
         }
 
-        private void ComputeSimilarityScore()
+        protected override void SolvePart2()
         {
             m_leftList.Sort();
             m_rightList.Sort();
-            m_result = 0;
 
             int previousLocationId = -1;
             int previousSimilarityScore = -1;

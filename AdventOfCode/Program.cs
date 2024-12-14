@@ -2,7 +2,8 @@
 
 internal class Program
 {
-    private const int DAY = 2;
+    private const int DAY = 3;
+    private const int PART = 2;
 
     private static void Main(string[] args)
     {
@@ -10,7 +11,7 @@ internal class Program
         if (day == null)
             return;
 
-        day.Run();
+        day.Run(PART);
         day.DisplayResult();
     }
 }
@@ -25,6 +26,8 @@ public static class DayFactory
                 return new Day1();
             case 2:
                 return new Day2();
+            case 3:
+                return new Day3();
             default:
                 Console.WriteLine("Missing day code!");
                 return null;
@@ -34,6 +37,33 @@ public static class DayFactory
 
 public interface IDay
 {
-    public void Run();
+    public void Run(int part);
     public void DisplayResult();
+}
+
+public abstract class Day : IDay
+{
+    public abstract void DisplayResult();
+
+    protected abstract void ReadInput();
+    protected abstract void SolvePart1();
+    protected abstract void SolvePart2();
+
+    public void Run(int part)
+    {
+        ReadInput();
+
+        switch (part)
+        {
+            case 1:
+                SolvePart1();
+                break;
+            case 2:
+                SolvePart2();
+                break;
+            default:
+                Console.WriteLine("¯\\_(--')_/¯");
+                break;
+        }
+    }
 }

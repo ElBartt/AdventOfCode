@@ -1,36 +1,16 @@
 namespace AdventOfCode
 {
-    public class Day2 : IDay
+    public class Day2 : Day
     {
-        private const int ms_part = 2;
-
         private List<Report> m_Reports = new List<Report>();
         private int m_SafeReportNumber = 0;
 
-        public void DisplayResult()
+        public override void DisplayResult()
         {
             Console.WriteLine(m_SafeReportNumber);
         }
 
-        public void Run()
-        {
-            ReadInput();
-
-            switch (ms_part)
-            {
-                case 1:
-                    ComputeSafeReports();
-                    break;
-                case 2:
-                    ComputeSafeReportsWithDampener();
-                    break;
-                default:
-                    Console.WriteLine("¯\\_(--')_/¯");
-                    break;
-            }
-        }
-
-        private void ReadInput()
+        protected override void ReadInput()
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string filePath = Path.Combine(basePath, "..", "..", "..", "Day2", "input.txt");
@@ -41,7 +21,7 @@ namespace AdventOfCode
             }
         }
 
-        private void ComputeSafeReports()
+        protected override void SolvePart1()
         {
             foreach (Report report in m_Reports)
             {
@@ -49,7 +29,7 @@ namespace AdventOfCode
             }
         }
 
-        private void ComputeSafeReportsWithDampener()
+        protected override void SolvePart2()
         {
             foreach (Report report in m_Reports)
             {
