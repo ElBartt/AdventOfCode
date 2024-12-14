@@ -2,8 +2,8 @@
 
 internal class Program
 {
-    private const int DAY = 3;
-    private const int PART = 2;
+    private const int DAY = 4;
+    private const int PART = 1;
 
     private static void Main(string[] args)
     {
@@ -28,6 +28,8 @@ public static class DayFactory
                 return new Day2();
             case 3:
                 return new Day3();
+            case 4:
+                return new Day4();
             default:
                 Console.WriteLine("Missing day code!");
                 return null;
