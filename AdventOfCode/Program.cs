@@ -3,7 +3,7 @@
 internal class Program
 {
     private const int DAY = 6;
-    private const int PART = 1;
+    private const int PART = 2;
 
     private static void Main(string[] args)
     {

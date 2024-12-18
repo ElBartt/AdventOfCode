@@ -19,6 +19,8 @@ public class Day6 : Day
     private Direction m_CurrentDirection = Direction.NORTH;
     private int m_VisitedPlace = 0;
 
+    private record struct PositionDirection(Point Position, Direction Direction);
+
     public override void DisplayResult()
     {
         Console.WriteLine(m_VisitedPlace);
@@ -136,5 +138,61 @@ public class Day6 : Day
 
     protected override void SolvePart2()
     {
+        int possiblePositions = 0;
+        Point originalStart = m_PlayerPosition;
+
+        for (int y = 0; y < m_Map.Count; y++)
+        {
+            for (int x = 0; x < m_Map[0].Count; x++)
+            {
+                if (x == originalStart.X && y == originalStart.Y)
+                    continue;
+
+                if (m_Map[y][x] != m_FreeSpace)
+                    continue;
+
+                // Add temporary obstacle
+                m_Map[y][x] = m_Obstacle;
+                m_PlayerPosition = originalStart;
+                m_CurrentDirection = Direction.NORTH;
+
+                if (CreatesLoop(m_Map))
+                    possiblePositions++;
+
+                m_Map[y][x] = m_FreeSpace;
+            }
+        }
+
+        m_VisitedPlace = possiblePositions;
+    }
+
+    private bool CreatesLoop(List<List<char>> map)
+    {
+        HashSet<PositionDirection> visited = new HashSet<PositionDirection>();
+        int x = 0, y = -1;
+
+        while (IsNextPositionValid(x, y))
+        {
+            int nextX = m_PlayerPosition.X + x;
+            int nextY = m_PlayerPosition.Y + y;
+            PositionDirection currentState = new PositionDirection(m_PlayerPosition, m_CurrentDirection);
+
+            if (visited.Contains(currentState))
+                return true;
+
+            visited.Add(currentState);
+
+            if (map[nextY][nextX] == m_Obstacle)
+            {
+                ComputeNextDirection();
+                ComputeNewOffset(ref x, ref y);
+            }
+            else
+            {
+                m_PlayerPosition = new Point(nextX, nextY);
+            }
+        }
+
+        return false;
     }
 }
